@@ -1,0 +1,28 @@
+{
+  "name": "next-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@stripe/react-stripe-js": "^7.0.0-beta.1",
+    "dotenv": "latest",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^9.1.6",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "stripe": "https://github.com/stripe/stripe-node/tarball/typescript"
+  },
+  "devDependencies": {
+    "@types/node": "^13.1.2",
+    "@types/react": "^16.9.17",
+    "typescript": "^3.7.4"
+  }
+}
