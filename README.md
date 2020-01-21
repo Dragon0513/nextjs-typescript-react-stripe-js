@@ -18,10 +18,10 @@ This is a full-stack TypeScript sample using:
   - Backend: [pages/api/products/index.ts](pages/api/products/index.ts)
 - Implementation of `StripeProvider` that sets up Stripe.js and Elements for usage with SSR via `useEffect` hook: [components/StripeProvider.tsx](components/StripeProvider.tsx)
 - Custom Amount Donation with redirecting to Stripe Checkout:
-  - Frontend: [pages/products/donate-with-checkout.tsx](pages/products/donate-with-checkout.tsx)
+  - Frontend: [pages/donate-with-checkout.tsx](pages/donate-with-checkout.tsx)
   - Backend: [pages/api/checkout_sessions/](pages/api/checkout_sessions/)
 - Custom Amount Donation with Stripe Elements (no redirect; [server-side confirmation](https://stripe.com/docs/payments/accept-a-payment-synchronously#web)):
-  - Frontend: [pages/products/donate-with-elements.tsx](pages/products/donate-with-checkout.tsx)
+  - Frontend: [pages/donate-with-elements.tsx](pages/donate-with-checkout.tsx)
   - Backend: [pages/api/payment_intents/](pages/api/payment_intents/)
 - Helpers
   - [utils/api-helpers.ts](utils/api-helpers.ts)
