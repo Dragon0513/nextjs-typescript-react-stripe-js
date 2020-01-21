@@ -3,7 +3,7 @@
 This is a full-stack TypeScript sample using:
 
 - Frontend:
-  - [Next.js 9](https://nextjs.org/blog/next-9) for [SRR](https://nextjs.org/features/server-side-rendering)
+  - [Next.js 9](https://nextjs.org/blog/next-9) for [SSR](https://nextjs.org/features/server-side-rendering)
   - [react-stripe-js](https://github.com/stripe/react-stripe-js) for [Checkout](https://stripe.com/checkout) and [Elements](https://stripe.com/elements)
 - Backend
   - Next.js 9 [API routes](https://nextjs.org/blog/next-9#api-routes)
