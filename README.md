@@ -11,12 +11,11 @@ This is a full-stack TypeScript sample using:
 
 ## Included functionality
 
-- Custom Next.js App to load Stripe.js in the `<head></head>`: [pages/\_app.js](pages/_app.js)
 - Making .env variables available to next: [next.config.js](next.config.js)
 - Fetching product data from the Stripe API:
   - Frontend: [pages/products/index.tsx](pages/products/index.tsx)
   - Backend: [pages/api/products/index.ts](pages/api/products/index.ts)
-- Implementation of `StripeProvider` that sets up Stripe.js and Elements for usage with SSR via `useEffect` hook: [components/StripeProvider.tsx](components/StripeProvider.tsx)
+- Implementation of `StripeProvider` that loads and sets up Stripe.js and Elements for usage with SSR via `loadStripe` helper: [components/StripeProvider.tsx](components/StripeProvider.tsx)
 - Custom Amount Donation with redirecting to Stripe Checkout:
   - Frontend: [pages/donate-with-checkout.tsx](pages/donate-with-checkout.tsx)
   - Backend: [pages/api/checkout_sessions/](pages/api/checkout_sessions/)
