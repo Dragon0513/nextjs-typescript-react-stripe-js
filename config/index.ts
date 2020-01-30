@@ -6,6 +6,8 @@ export const MAX_AMOUNT: 5000.0 = 5000.0;
 export const AMOUNT_STEP: 5.0 = 5.0;
 
 const dev: boolean = process.env.NODE_ENV !== "production";
-export const SERVER_URL: string = dev
+export const SERVER_URL:
+  | "http://localhost:3000"
+  | "https://your_deployment.server.com" = dev
   ? "http://localhost:3000"
   : "https://your_deployment.server.com";

@@ -26,10 +26,6 @@ const Layout: React.FunctionComponent<Props> = ({
           <a>About</a>
         </Link>{" "}
         |{" "}
-        <Link href="/products">
-          <a>Product List</a>
-        </Link>{" "}
-        |{" "}
         <Link href="/donate-with-checkout">
           <a>Donate with Checkout</a>
         </Link>{" "}

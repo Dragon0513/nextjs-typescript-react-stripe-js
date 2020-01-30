@@ -15,7 +15,7 @@ type Props = {
 };
 
 const ResultPage: NextPage<Props> = ({ checkoutSession, paymentIntent }) => (
-  <Layout title="Product List | Next.js + TypeScript Example">
+  <Layout title="Payment Result | Next.js + TypeScript Example">
     <h1>Payment Result</h1>
     <h2>Status: {paymentIntent.status}</h2>
     <p>
