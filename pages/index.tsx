@@ -6,7 +6,7 @@ import { NextPage } from "next";
 const IndexPage: NextPage = () => {
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <h1>Type-safe payments with Next.js, TypeScript, and Stripe 🔒💸</h1>
+      <h1>Type-safe Payments with Next.js, TypeScript, and Stripe 🔒💸</h1>
       <p>
         <Link href="/donate-with-checkout">
           <a>Donate with Checkout</a>
