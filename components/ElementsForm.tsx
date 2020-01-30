@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 
 import CustomDonationInput from "../components/CustomDonationInput";
+import PrintObject from "../components/PrintObject";
 
 import { fetchPostJSON } from "../utils/api-helpers";
 import { formatAmountForDisplay } from "../utils/stripe-helpers";
@@ -15,7 +16,7 @@ const ElementsForm: React.FunctionComponent = () => {
     customDonation: config.MIN_AMOUNT,
     cardholderName: ""
   });
-  const [paymentStatus, setPaymentStatus] = useState("initial");
+  const [paymentIntent, setPaymentIntent] = useState({ status: "initial" });
   const [errorMessage, setErrorMessage] = useState("");
   const stripe = useStripe();
   const elements = useElements();
@@ -53,7 +54,7 @@ const ElementsForm: React.FunctionComponent = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setPaymentStatus("processing");
+    setPaymentIntent({ status: "processing" });
     // Create a PaymentIntent.
     let paymentIntent: Stripe.PaymentIntent;
 
@@ -70,33 +71,32 @@ const ElementsForm: React.FunctionComponent = () => {
     });
 
     if (error) {
-      setPaymentStatus("error");
+      setPaymentIntent({ status: "error" });
       setErrorMessage(error.message);
     } else {
-      console.log("[PaymentMethod]", paymentMethod);
       // Send paymentMethod.id to your server.
       paymentIntent = await fetchPostJSON(
         `${config.SERVER_URL}/api/payment_intents`,
         { amount: input.customDonation, paymentMethodId: paymentMethod.id }
       );
-      setPaymentStatus(paymentIntent.status);
+      setPaymentIntent(paymentIntent);
       if (paymentIntent.status === "requires_action") {
         const result = await stripe.handleCardAction(
           paymentIntent.client_secret
         );
         if (result.error) {
-          setPaymentStatus("error");
+          setPaymentIntent({ status: "error" });
           setErrorMessage(result.error.message);
         } else {
           paymentIntent = result.paymentIntent;
-          setPaymentStatus(paymentIntent.status);
+          setPaymentIntent(paymentIntent);
         }
         if (paymentIntent.status === "requires_confirmation") {
           // Confirm the PaymentIntent to finalise the payment.
           paymentIntent = await fetchPostJSON(
             `${config.SERVER_URL}/api/payment_intents/${paymentIntent.id}/confirm`
           );
-          setPaymentStatus(paymentIntent.status);
+          setPaymentIntent(paymentIntent);
         }
       }
     }
@@ -144,12 +144,15 @@ const ElementsForm: React.FunctionComponent = () => {
         </fieldset>
         <button
           type="submit"
-          disabled={!["initial", "succeeded", "error"].includes(paymentStatus)}
+          disabled={
+            !["initial", "succeeded", "error"].includes(paymentIntent.status)
+          }
         >
           Donate {formatAmountForDisplay(input.customDonation, config.CURRENCY)}
         </button>
       </form>
-      <PaymentStatus status={paymentStatus} />
+      <PaymentStatus status={paymentIntent.status} />
+      <PrintObject content={paymentIntent} />
     </>
   );
 };

@@ -2,6 +2,7 @@ import * as React from "react";
 import { NextPage } from "next";
 import Link from "next/link";
 import Layout from "../components/Layout";
+import PrintObject from "../components/PrintObject";
 
 import { SERVER_URL } from "../config";
 import { fetchGetJSON } from "../utils/api-helpers";
@@ -15,12 +16,13 @@ type Props = {
 };
 
 const ResultPage: NextPage<Props> = ({ checkoutSession, paymentIntent }) => (
-  <Layout title="Payment Result | Next.js + TypeScript Example">
-    <h1>Payment Result</h1>
+  <Layout title="Checkout Payment Result | Next.js + TypeScript Example">
+    <h1>Checkout Payment Result</h1>
     <h2>Status: {paymentIntent.status}</h2>
     <p>
-      Your Checkout Session ID <code>{checkoutSession.id}</code>
+      Your Checkout Session ID: <code>{checkoutSession.id}</code>
     </p>
+    <PrintObject content={checkoutSession} />
     <p>
       <Link href="/">
         <a>Go home</a>
