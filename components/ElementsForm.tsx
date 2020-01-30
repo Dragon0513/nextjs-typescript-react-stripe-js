@@ -12,7 +12,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 const ElementsForm: React.FunctionComponent = () => {
   const [input, setInput] = useState({
-    customDonation: 10,
+    customDonation: config.MIN_AMOUNT,
     cardholderName: ""
   });
   const [paymentStatus, setPaymentStatus] = useState("initial");

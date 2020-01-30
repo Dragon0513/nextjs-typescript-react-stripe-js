@@ -20,5 +20,5 @@ export function formatAmountForStripe(amount: number, currency: string) {
       zeroDecimalCurrency = false;
     }
   }
-  return zeroDecimalCurrency ? amount : amount * 100;
+  return zeroDecimalCurrency ? amount : Math.round(amount * 100);
 }

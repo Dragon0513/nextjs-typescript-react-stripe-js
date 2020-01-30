@@ -11,7 +11,7 @@ import Stripe from "stripe";
 import { useStripe } from "@stripe/react-stripe-js";
 
 const CheckoutForm: React.FunctionComponent = () => {
-  const [input, setInput] = useState({ customDonation: 10 });
+  const [input, setInput] = useState({ customDonation: config.MIN_AMOUNT });
   const stripe = useStripe();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
