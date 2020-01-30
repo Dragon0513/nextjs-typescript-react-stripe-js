@@ -36,13 +36,16 @@ const Layout: React.FunctionComponent<Props> = ({
       <hr />
       <span>
         This is a{" "}
-        <Link href="https://github.com/stripe-samples">
-          <a target="_blank">Stripe Sample</a>
-        </Link>
+        <a href="https://github.com/stripe-samples" target="_blank">
+          Stripe Sample
+        </a>
         .{" "}
-        <Link href="https://github.com/stripe-samples/nextjs-typescript-react-stripe-js">
-          <a target="_blank">View code on GitHub</a>
-        </Link>
+        <a
+          href="https://github.com/stripe-samples/nextjs-typescript-react-stripe-js"
+          target="_blank"
+        >
+          View code on GitHub
+        </a>
         .
       </span>
     </footer>

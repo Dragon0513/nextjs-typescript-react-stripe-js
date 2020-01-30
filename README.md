@@ -12,7 +12,7 @@ This is a full-stack TypeScript sample using:
 ## Included functionality
 
 - Making .env variables available to next: [next.config.js](next.config.js)
-- Implementation of `StripeProvider` that loads and sets up Stripe.js and Elements for usage with SSR via `loadStripe` helper: [components/StripeProvider.tsx](components/StripeProvider.tsx)
+- Implementation of custom root App [pages/\_app.js](pages/_app.js) that loads and sets up Stripe.js and Elements for usage with SSR via `loadStripe` helper.
 - Custom Amount Donation with redirecting to Stripe Checkout:
   - Frontend: [pages/donate-with-checkout.tsx](pages/donate-with-checkout.tsx)
   - Backend: [pages/api/checkout_sessions/](pages/api/checkout_sessions/)
