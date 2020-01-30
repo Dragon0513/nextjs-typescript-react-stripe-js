@@ -22,10 +22,6 @@ const Layout: React.FunctionComponent<Props> = ({
           <a>Home</a>
         </Link>{" "}
         |{" "}
-        <Link href="/about">
-          <a>About</a>
-        </Link>{" "}
-        |{" "}
         <Link href="/donate-with-checkout">
           <a>Donate with Checkout</a>
         </Link>{" "}
@@ -38,7 +34,17 @@ const Layout: React.FunctionComponent<Props> = ({
     {children}
     <footer>
       <hr />
-      <span>I'm here to stay (Footer)</span>
+      <span>
+        This is a{" "}
+        <Link href="https://github.com/stripe-samples">
+          <a target="_blank">Stripe Sample</a>
+        </Link>
+        .{" "}
+        <Link href="https://github.com/stripe-samples/nextjs-typescript-react-stripe-js">
+          <a target="_blank">View code on GitHub</a>
+        </Link>
+        .
+      </span>
     </footer>
   </div>
 );

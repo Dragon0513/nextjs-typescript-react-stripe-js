@@ -6,10 +6,15 @@ import { NextPage } from "next";
 const IndexPage: NextPage = () => {
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <h1>Hello Next.js 👋</h1>
+      <h1>Type-safe payments with Next.js, TypeScript, and Stripe 🔒💸</h1>
       <p>
-        <Link href="/about">
-          <a>About</a>
+        <Link href="/donate-with-checkout">
+          <a>Donate with Checkout</a>
+        </Link>
+      </p>
+      <p>
+        <Link href="/donate-with-elements">
+          <a>Donate with Elements</a>
         </Link>
       </p>
     </Layout>
