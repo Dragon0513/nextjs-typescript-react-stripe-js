@@ -1,14 +1,14 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 
-import CustomDonationInput from "../components/CustomDonationInput";
+import CustomDonationInput from '../components/CustomDonationInput';
 
-import { fetchPostJSON } from "../utils/api-helpers";
-import { formatAmountForDisplay } from "../utils/stripe-helpers";
-import * as config from "../config";
+import { fetchPostJSON } from '../utils/api-helpers';
+import { formatAmountForDisplay } from '../utils/stripe-helpers';
+import * as config from '../config';
 
 // Import Stripe types of apiVersion: '2019-12-03'.
-import Stripe from "stripe";
-import { useStripe } from "@stripe/react-stripe-js";
+import Stripe from 'stripe';
+import { useStripe } from '@stripe/react-stripe-js';
 
 const CheckoutForm: React.FunctionComponent = () => {
   const [input, setInput] = useState({ customDonation: config.MIN_AMOUNT });
@@ -27,6 +27,12 @@ const CheckoutForm: React.FunctionComponent = () => {
       `${config.SERVER_URL}/api/checkout_sessions`,
       { amount: input.customDonation }
     );
+
+    if ((checkoutSession as any).statusCode === 500) {
+      console.error((checkoutSession as any).message);
+      return;
+    }
+
     // Redirect to Checkout.
     const { error } = await stripe.redirectToCheckout({
       // Make the id field from the Checkout Session creation API response
@@ -43,7 +49,7 @@ const CheckoutForm: React.FunctionComponent = () => {
   return (
     <form onSubmit={handleSubmit}>
       <CustomDonationInput
-        name={"customDonation"}
+        name={'customDonation'}
         value={input.customDonation}
         min={config.MIN_AMOUNT}
         max={config.MAX_AMOUNT}
