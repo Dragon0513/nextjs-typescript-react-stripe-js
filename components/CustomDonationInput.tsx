@@ -1,6 +1,5 @@
-import * as React from "react";
-
-import { formatAmountForDisplay } from "../utils/stripe-helpers";
+import React from 'react';
+import { formatAmountForDisplay } from '../utils/stripe-helpers';
 
 type Props = {
   name: string;
