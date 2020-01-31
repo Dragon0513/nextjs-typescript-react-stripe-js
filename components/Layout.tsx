@@ -1,16 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 type Props = {
   title?: string;
 };
 
+const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY!);
+
 const Layout: React.FunctionComponent<Props> = ({
   children,
   title = 'This is the default title'
 }) => (
-  <div>
+  <Elements stripe={stripePromise}>
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
@@ -49,7 +53,7 @@ const Layout: React.FunctionComponent<Props> = ({
         .
       </span>
     </footer>
-  </div>
+  </Elements>
 );
 
 export default Layout;
