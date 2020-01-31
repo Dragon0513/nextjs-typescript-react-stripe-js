@@ -24,7 +24,7 @@ const CheckoutForm: React.FunctionComponent = () => {
     e.preventDefault();
     // Create a Checkout Session.
     const checkoutSession: Stripe.Checkout.Session = await fetchPostJSON(
-      `${config.SERVER_URL}/api/checkout_sessions`,
+      '/api/checkout_sessions',
       { amount: input.customDonation }
     );
 

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 import PrintObject from '../components/PrintObject';
 
-import { SERVER_URL } from '../config';
 import { fetchGetJSON } from '../utils/api-helpers';
 import useSWR from 'swr';
 
@@ -15,7 +14,7 @@ const ResultPage: NextPage = () => {
   // https://nextjs.org/docs/basic-features/data-fetching#static-generation
   const { data, error } = useSWR(
     router.query.session_id
-      ? `${SERVER_URL}/api/checkout_sessions/${router.query.session_id}`
+      ? `/api/checkout_sessions/${router.query.session_id}`
       : null,
     fetchGetJSON
   );
