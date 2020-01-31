@@ -12,7 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const id: string = req.query.id as string;
   try {
     if (!id.startsWith("cs_")) {
-      throw Error("Missing CheckoutSession ID.");
+      throw Error("Incorrect CheckoutSession ID.");
     }
     const checkout_session: Stripe.Checkout.Session = await stripe.checkout.sessions.retrieve(
       id,

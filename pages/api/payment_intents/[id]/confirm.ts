@@ -10,9 +10,13 @@ const stripe = new Stripe(stripeSecretKey, {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
+    const id: string = req.query.id as string;
     try {
+      if (!id.startsWith("pi_")) {
+        throw Error("Incorrect PaymentIntent ID.");
+      }
       const payment_intent: Stripe.PaymentIntent = await stripe.paymentIntents.confirm(
-        req.query.id as string
+        id
       );
 
       res.status(200).json(payment_intent);
