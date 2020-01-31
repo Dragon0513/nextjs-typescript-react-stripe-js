@@ -12,13 +12,15 @@ This is a full-stack TypeScript sample using:
 ## Included functionality
 
 - Making .env variables available to next: [next.config.js](next.config.js)
-- Implementation of custom root App [pages/\_app.js](pages/_app.js) that loads and sets up Stripe.js and Elements for usage with SSR via `loadStripe` helper.
+- Implementation of custom root App [pages/\_app.tsx](pages/_app.tsx) that loads and sets up Stripe.js and Elements for usage with SSR via `loadStripe` helper.
 - Custom Amount Donation with redirecting to Stripe Checkout:
   - Frontend: [pages/donate-with-checkout.tsx](pages/donate-with-checkout.tsx)
   - Backend: [pages/api/checkout_sessions/](pages/api/checkout_sessions/)
 - Custom Amount Donation with Stripe Elements (no redirect; [server-side confirmation](https://stripe.com/docs/payments/accept-a-payment-synchronously#web)):
   - Frontend: [pages/donate-with-elements.tsx](pages/donate-with-checkout.tsx)
   - Backend: [pages/api/payment_intents/](pages/api/payment_intents/)
+- Webhook handling
+  - By default Next.js API routes are same-origin only. To allow Stripe webhook event requests to reach out API route, we need to add `micro-cors` and [verify the webhook signature](https://stripe.com/docs/webhooks/signatures) of the event. All of this happens in [pages/api/webhooks/index.ts](pages/api/webhooks/index.ts)
 - Helpers
   - [utils/api-helpers.ts](utils/api-helpers.ts)
     - `isomorphic-unfetch` helpers for GET and POST requests
