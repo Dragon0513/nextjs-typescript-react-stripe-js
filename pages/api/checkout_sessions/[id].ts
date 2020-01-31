@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 // Initialise Stripe with Typescript.
 import Stripe from "stripe";
-const stripeSecretKey: string = process.env.STRIPE_SECRET_KEY as string; // TODO make better.
+const stripeSecretKey: string = process.env.STRIPE_SECRET_KEY!;
 const stripe = new Stripe(stripeSecretKey, {
   apiVersion: "2019-12-03",
   typescript: true
