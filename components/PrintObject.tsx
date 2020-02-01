@@ -1,10 +1,9 @@
-import React from "react";
+import React from 'react';
 
 type Props = {
   content: object;
 };
 
-// This component initialises and instance of Stripe.js and passes a reference down to the children.
 const PrintObject: React.FunctionComponent<Props> = ({ content }) => {
   const formattedContent: string = JSON.stringify(content, null, 2);
   return <pre>{formattedContent}</pre>;

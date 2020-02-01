@@ -1,16 +1,20 @@
-import * as React from "react";
-import Link from "next/link";
-import Head from "next/head";
+import React from 'react';
+import Link from 'next/link';
+import Head from 'next/head';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 type Props = {
   title?: string;
 };
 
+const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY!);
+
 const Layout: React.FunctionComponent<Props> = ({
   children,
-  title = "This is the default title"
+  title = 'This is the default title'
 }) => (
-  <div>
+  <Elements stripe={stripePromise}>
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
@@ -20,12 +24,12 @@ const Layout: React.FunctionComponent<Props> = ({
       <nav>
         <Link href="/">
           <a>Home</a>
-        </Link>{" "}
-        |{" "}
+        </Link>{' '}
+        |{' '}
         <Link href="/donate-with-checkout">
           <a>Donate with Checkout</a>
-        </Link>{" "}
-        |{" "}
+        </Link>{' '}
+        |{' '}
         <Link href="/donate-with-elements">
           <a>Donate with Elements</a>
         </Link>
@@ -35,11 +39,11 @@ const Layout: React.FunctionComponent<Props> = ({
     <footer>
       <hr />
       <span>
-        This is a{" "}
+        This is a{' '}
         <a href="https://github.com/stripe-samples" target="_blank">
           Stripe Sample
         </a>
-        .{" "}
+        .{' '}
         <a
           href="https://github.com/stripe-samples/nextjs-typescript-react-stripe-js"
           target="_blank"
@@ -49,7 +53,7 @@ const Layout: React.FunctionComponent<Props> = ({
         .
       </span>
     </footer>
-  </div>
+  </Elements>
 );
 
 export default Layout;
