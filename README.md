@@ -32,5 +32,28 @@ This is a full-stack TypeScript sample using:
 
 ## Setup:
 
+Copy the `.env.example` file into a file named `.env` in the root directory of this project:
+
+    cp .env.example .env
+
+You will need a Stripe account to run this sample. Once you set up your account, go to the Stripe [developer dashboard](https://stripe.com/docs/development#api-keys) to find your API keys and replace them in the `.env` file.
+
+    STRIPE_PUBLISHABLE_KEY=<replace-with-your-publishable-key>
+    STRIPE_SECRET_KEY=<replace-with-your-secret-key>
+
+Now install the dependencies and start the development server.
+
     npm install
     npm run dev
+
+### Forward webhooks to your local dev server
+
+First [install the CLI](https://stripe.com/docs/stripe-cli) and [link your Stripe account](https://stripe.com/docs/stripe-cli#link-account).
+
+Next, start the webhook forwarding:
+
+    stripe listen --forward-to localhost:3000/api/webhooks
+
+The CLI will print a webhook secret key to the console. Set `STRIPE_WEBHOOK_SECRET` to this value in your .env file.
+
+When you are ready to create a live webhook endpoint, follow our guide in the docs on [configuring a webhook endpoint in the dashboard](https://stripe.com/docs/webhooks/setup#configure-webhook-settings).
