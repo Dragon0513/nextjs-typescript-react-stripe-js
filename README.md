@@ -80,7 +80,9 @@ Next, start the webhook forwarding:
 
 The CLI will print a webhook secret key to the console. Set `STRIPE_WEBHOOK_SECRET` to this value in your `.env` file.
 
-### Deploy it to the cloud with [now](https://zeit.co/now) ([download](https://zeit.co/download))
+### Deploy it to the cloud with Now
+
+Install [now](https://zeit.co/now) ([download](https://zeit.co/download))
 
 Add your Stripe [secrets to Now](https://zeit.co/docs/v2/serverless-functions/env-and-secrets):
 

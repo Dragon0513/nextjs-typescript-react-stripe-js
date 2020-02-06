@@ -45,7 +45,7 @@ const Layout: React.FunctionComponent<Props> = ({
         </a>
         .{' '}
         <a
-          href="https://github.com/stripe-samples/nextjs-typescript-react-stripe-js"
+          href="https://github.com/zeit/next.js/tree/canary/examples/with-stripe-typescript"
           target="_blank"
         >
           View code on GitHub
