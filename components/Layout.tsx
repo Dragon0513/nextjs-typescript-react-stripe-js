@@ -12,7 +12,7 @@ const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY!);
 
 const Layout: React.FunctionComponent<Props> = ({
   children,
-  title = 'This is the default title'
+  title = 'TypeScript Next.js Stripe Example'
 }) => (
   <Elements stripe={stripePromise}>
     <Head>
