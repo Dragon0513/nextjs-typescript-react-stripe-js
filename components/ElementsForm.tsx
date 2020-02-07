@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState } from 'react';
 
 import CustomDonationInput from '../components/CustomDonationInput';
 import PrintObject from '../components/PrintObject';
@@ -7,7 +7,7 @@ import { fetchPostJSON } from '../utils/api-helpers';
 import { formatAmountForDisplay } from '../utils/stripe-helpers';
 import * as config from '../config';
 
-// Import Stripe types of apiVersion: '2019-12-03'.
+// Import Stripe namespace for apiVersion: '2019-12-03'.
 import Stripe from 'stripe';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
@@ -46,13 +46,13 @@ const ElementsForm: React.FunctionComponent = () => {
     }
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = e =>
     setInput({
       ...input,
       [e.currentTarget.name]: e.currentTarget.value
     });
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
     setPaymentIntent({ status: 'processing' });
     // Create a PaymentIntent.
@@ -61,19 +61,19 @@ const ElementsForm: React.FunctionComponent = () => {
     // Get a reference to a mounted CardElement. Elements knows how
     // to find your CardElement because there can only ever be one of
     // each type of element.
-    const cardElement = elements.getElement(CardElement);
+    const cardElement = elements!.getElement(CardElement);
 
     // Use your card Element with other Stripe.js APIs
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
+    const { error, paymentMethod } = await stripe!.createPaymentMethod({
       type: 'card',
-      card: cardElement,
+      card: cardElement!,
       billing_details: { name: input.cardholderName }
     });
 
     if (error) {
       setPaymentIntent({ status: 'error' });
-      setErrorMessage(error.message);
-    } else {
+      setErrorMessage(error.message as string); // TODO check if resolved
+    } else if (paymentMethod) {
       // Send paymentMethod.id to your server.
       paymentIntent = await fetchPostJSON('/api/payment_intents', {
         amount: input.customDonation,
@@ -81,14 +81,14 @@ const ElementsForm: React.FunctionComponent = () => {
       });
       setPaymentIntent(paymentIntent);
       if (paymentIntent.status === 'requires_action') {
-        const result = await stripe.handleCardAction(
-          paymentIntent.client_secret
+        const result = await stripe!.handleCardAction(
+          paymentIntent.client_secret!
         );
         if (result.error) {
           setPaymentIntent({ status: 'error' });
-          setErrorMessage(result.error.message);
-        } else {
-          paymentIntent = result.paymentIntent;
+          setErrorMessage(result.error.message as string); // TODO check if resolved
+        } else if (result.paymentIntent) {
+          paymentIntent = result.paymentIntent as any; // TODO better way?
           setPaymentIntent(paymentIntent);
         }
         if (paymentIntent.status === 'requires_confirmation') {

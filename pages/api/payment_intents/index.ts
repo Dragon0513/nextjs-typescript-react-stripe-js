@@ -3,12 +3,13 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { CURRENCY, MIN_AMOUNT, MAX_AMOUNT } from '../../../config';
 import { formatAmountForStripe } from '../../../utils/stripe-helpers';
 
-// Initialise Stripe with Typescript.
 import Stripe from 'stripe';
 const stripeSecretKey: string = process.env.STRIPE_SECRET_KEY!;
 const stripe = new Stripe(stripeSecretKey, {
+  // https://github.com/stripe/stripe-node#configuration
   apiVersion: '2019-12-03',
-  typescript: true
+  typescript: true,
+  telemetry: true
 });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

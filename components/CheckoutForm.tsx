@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState } from 'react';
 
 import CustomDonationInput from '../components/CustomDonationInput';
 
@@ -6,7 +6,7 @@ import { fetchPostJSON } from '../utils/api-helpers';
 import { formatAmountForDisplay } from '../utils/stripe-helpers';
 import * as config from '../config';
 
-// Import Stripe types of apiVersion: '2019-12-03'.
+// Import Stripe namespace for apiVersion: '2019-12-03'.
 import Stripe from 'stripe';
 import { useStripe } from '@stripe/react-stripe-js';
 
@@ -14,13 +14,13 @@ const CheckoutForm: React.FunctionComponent = () => {
   const [input, setInput] = useState({ customDonation: config.MIN_AMOUNT });
   const stripe = useStripe();
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) =>
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = e =>
     setInput({
       ...input,
       [e.currentTarget.name]: e.currentTarget.value
     });
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
     // Create a Checkout Session.
     const checkoutSession: Stripe.Checkout.Session = await fetchPostJSON(
@@ -34,7 +34,7 @@ const CheckoutForm: React.FunctionComponent = () => {
     }
 
     // Redirect to Checkout.
-    const { error } = await stripe.redirectToCheckout({
+    const { error } = await stripe!.redirectToCheckout({
       // Make the id field from the Checkout Session creation API response
       // available to this file, so you can provide it as parameter here
       // instead of the {{CHECKOUT_SESSION_ID}} placeholder.

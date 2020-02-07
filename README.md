@@ -1,5 +1,9 @@
 # Type-safe payments with Next.js TypeScript and react-stripe-js
 
+- Demo: https://nextjs-typescript-react-stripe-js.now.sh/
+- CodeSandbox: TODO
+- Blogpost: TODO
+
 This is a full-stack TypeScript sample using:
 
 - Frontend:
@@ -34,10 +38,10 @@ This is a full-stack TypeScript sample using:
 
 ### Using `create-next-app`
 
-Execute [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app) with [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) or [npx](https://github.com/npm/npx#readme) to bootstrap the example:
+Execute [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
 
 ```bash
-npx create-next-app --example with-stripe-typescript with-stripe-typescript-app
+npm init next-app --example with-stripe-typescript with-stripe-typescript-app
 # or
 yarn create next-app --example with-stripe-typescript with-stripe-typescript-app
 ```

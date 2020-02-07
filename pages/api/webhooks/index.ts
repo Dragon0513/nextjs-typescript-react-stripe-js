@@ -2,12 +2,13 @@ import { buffer } from 'micro';
 import Cors from 'micro-cors';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-// Initialise Stripe with Typescript.
 import Stripe from 'stripe';
 const stripeSecretKey: string = process.env.STRIPE_SECRET_KEY!;
 const stripe = new Stripe(stripeSecretKey, {
+  // https://github.com/stripe/stripe-node#configuration
   apiVersion: '2019-12-03',
-  typescript: true
+  typescript: true,
+  telemetry: true
 });
 
 const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!;
