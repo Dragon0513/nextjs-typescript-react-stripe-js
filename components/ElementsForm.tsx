@@ -7,8 +7,6 @@ import { fetchPostJSON } from '../utils/api-helpers';
 import { formatAmountForDisplay } from '../utils/stripe-helpers';
 import * as config from '../config';
 
-// Import Stripe namespace for apiVersion: '2019-12-03'.
-import Stripe from 'stripe';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 const ElementsForm: React.FunctionComponent = () => {
@@ -16,7 +14,7 @@ const ElementsForm: React.FunctionComponent = () => {
     customDonation: config.MIN_AMOUNT,
     cardholderName: ''
   });
-  const [paymentIntent, setPaymentIntent] = useState({ status: 'initial' });
+  const [payment, setPayment] = useState({ status: 'initial' });
   const [errorMessage, setErrorMessage] = useState('');
   const stripe = useStripe();
   const elements = useElements();
@@ -54,9 +52,7 @@ const ElementsForm: React.FunctionComponent = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
-    setPaymentIntent({ status: 'processing' });
-    // Create a PaymentIntent.
-    let paymentIntent: Stripe.PaymentIntent;
+    setPayment({ status: 'processing' });
 
     // Get a reference to a mounted CardElement. Elements knows how
     // to find your CardElement because there can only ever be one of
@@ -71,32 +67,29 @@ const ElementsForm: React.FunctionComponent = () => {
     });
 
     if (error) {
-      setPaymentIntent({ status: 'error' });
+      setPayment({ status: 'error' });
       setErrorMessage(error.message as string); // TODO check if resolved
     } else if (paymentMethod) {
       // Send paymentMethod.id to your server.
-      paymentIntent = await fetchPostJSON('/api/payment_intents', {
+      const response = await fetchPostJSON('/api/payment_intents', {
         amount: input.customDonation,
         paymentMethodId: paymentMethod.id
       });
-      setPaymentIntent(paymentIntent);
-      if (paymentIntent.status === 'requires_action') {
-        const result = await stripe!.handleCardAction(
-          paymentIntent.client_secret!
-        );
+      setPayment(response);
+      if (response.status === 'requires_action') {
+        const result = await stripe!.handleCardAction(response.client_secret!);
         if (result.error) {
-          setPaymentIntent({ status: 'error' });
+          setPayment({ status: 'error' });
           setErrorMessage(result.error.message as string); // TODO check if resolved
         } else if (result.paymentIntent) {
-          paymentIntent = result.paymentIntent as any; // TODO better way?
-          setPaymentIntent(paymentIntent);
-        }
-        if (paymentIntent.status === 'requires_confirmation') {
-          // Confirm the PaymentIntent to finalise the payment.
-          paymentIntent = await fetchPostJSON(
-            `/api/payment_intents/${paymentIntent.id}/confirm`
-          );
-          setPaymentIntent(paymentIntent);
+          setPayment(result.paymentIntent);
+          if (result.paymentIntent.status === 'requires_confirmation') {
+            // Confirm the PaymentIntent to finalise the payment.
+            const response = await fetchPostJSON(
+              `/api/payment_intents/${result.paymentIntent.id}/confirm`
+            );
+            setPayment(response);
+          }
         }
       }
     }
@@ -145,14 +138,15 @@ const ElementsForm: React.FunctionComponent = () => {
         <button
           type="submit"
           disabled={
-            !['initial', 'succeeded', 'error'].includes(paymentIntent.status)
+            !['initial', 'succeeded', 'error'].includes(payment.status) ||
+            !stripe
           }
         >
           Donate {formatAmountForDisplay(input.customDonation, config.CURRENCY)}
         </button>
       </form>
-      <PaymentStatus status={paymentIntent.status} />
-      <PrintObject content={paymentIntent} />
+      <PaymentStatus status={payment.status} />
+      <PrintObject content={payment} />
     </>
   );
 };

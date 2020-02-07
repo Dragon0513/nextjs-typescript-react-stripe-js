@@ -6,8 +6,6 @@ import { fetchPostJSON } from '../utils/api-helpers';
 import { formatAmountForDisplay } from '../utils/stripe-helpers';
 import * as config from '../config';
 
-// Import Stripe namespace for apiVersion: '2019-12-03'.
-import Stripe from 'stripe';
 import { useStripe } from '@stripe/react-stripe-js';
 
 const CheckoutForm: React.FunctionComponent = () => {
@@ -23,13 +21,12 @@ const CheckoutForm: React.FunctionComponent = () => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault();
     // Create a Checkout Session.
-    const checkoutSession: Stripe.Checkout.Session = await fetchPostJSON(
-      '/api/checkout_sessions',
-      { amount: input.customDonation }
-    );
+    const response = await fetchPostJSON('/api/checkout_sessions', {
+      amount: input.customDonation
+    });
 
-    if ((checkoutSession as any).statusCode === 500) {
-      console.error((checkoutSession as any).message);
+    if (response.statusCode === 500) {
+      console.error(response.message);
       return;
     }
 
@@ -38,7 +35,7 @@ const CheckoutForm: React.FunctionComponent = () => {
       // Make the id field from the Checkout Session creation API response
       // available to this file, so you can provide it as parameter here
       // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-      sessionId: checkoutSession.id
+      sessionId: response.id
     });
     // If `redirectToCheckout` fails due to a browser or network
     // error, display the localized error message to your customer
@@ -57,7 +54,7 @@ const CheckoutForm: React.FunctionComponent = () => {
         currency={config.CURRENCY}
         onChange={handleInputChange}
       />
-      <button type="submit">
+      <button type="submit" disabled={!stripe}>
         Donate {formatAmountForDisplay(input.customDonation, config.CURRENCY)}
       </button>
     </form>
