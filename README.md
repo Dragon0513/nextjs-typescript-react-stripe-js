@@ -1,10 +1,10 @@
-# Type-safe payments with Next.js TypeScript and react-stripe-js
+# Type-safe payments with Next.js, TypeScript, and react-stripe-js 🔒💸
 
 - Demo: https://nextjs-typescript-react-stripe-js.now.sh/
-- CodeSandbox: TODO
-- Blogpost: TODO
+- CodeSandbox: https://codesandbox.io/s/nextjs-typescript-react-stripe-js-ix23n
+- Tutorial: https://dev.to/thorwebdev/type-safe-payments-with-next-js-typescript-and-stripe-2a1o
 
-This is a full-stack TypeScript sample using:
+This is a full-stack TypeScript example using:
 
 - Frontend:
   - [Next.js 9](https://nextjs.org/blog/next-9) for [SSR](https://nextjs.org/features/server-side-rendering)
@@ -18,15 +18,17 @@ This is a full-stack TypeScript sample using:
 - Making `.env` variables available to next: [next.config.js](next.config.js)
   - **_NOTE_**: when deploying with Now you need to [add your secrets](https://zeit.co/docs/v2/serverless-functions/env-and-secrets) and specify a [now.json](/now.json) file.
 - Implementation of a Layout component that loads and sets up Stripe.js and Elements for usage with SSR via `loadStripe` helper: [components/Layout.tsx](components/Layout.tsx).
-- Custom Amount Donation with redirect to Stripe Checkout:
-  - Frontend: [pages/donate-with-checkout.tsx](pages/donate-with-checkout.tsx)
-  - Backend: [pages/api/checkout_sessions/](pages/api/checkout_sessions/)
-  - Checkout payment result page that uses [SWR](https://github.com/zeit/swr) hooks to fetch the CheckoutSession status from the API route: [pages/result.tsx](pages/result.tsx).
-- Custom Amount Donation with Stripe Elements (no redirect; [server-side confirmation](https://stripe.com/docs/payments/accept-a-payment-synchronously#web)):
-  - Frontend: [pages/donate-with-elements.tsx](pages/donate-with-checkout.tsx)
-  - Backend: [pages/api/payment_intents/](pages/api/payment_intents/)
+- Stripe Checkout
+  - Custom Amount Donation with redirect to Stripe Checkout:
+    - Frontend: [pages/donate-with-checkout.tsx](pages/donate-with-checkout.tsx)
+    - Backend: [pages/api/checkout_sessions/](pages/api/checkout_sessions/)
+    - Checkout payment result page that uses [SWR](https://github.com/zeit/swr) hooks to fetch the CheckoutSession status from the API route: [pages/result.tsx](pages/result.tsx).
+- Stripe Elements
+  - Custom Amount Donation with Stripe Elements (no redirect; [server-side confirmation](https://stripe.com/docs/payments/accept-a-payment-synchronously#web)):
+    - Frontend: [pages/donate-with-elements.tsx](pages/donate-with-checkout.tsx)
+    - Backend: [pages/api/payment_intents/](pages/api/payment_intents/)
 - Webhook handling
-  - By default Next.js API routes are same-origin only. To allow Stripe webhook event requests to reach out API route, we need to add `micro-cors` and [verify the webhook signature](https://stripe.com/docs/webhooks/signatures) of the event. All of this happens in [pages/api/webhooks/index.ts](pages/api/webhooks/index.ts).
+  - By default Next.js API routes are same-origin only. To allow Stripe webhook event requests to reach our API route, we need to add `micro-cors` and [verify the webhook signature](https://stripe.com/docs/webhooks/signatures) of the event. All of this happens in [pages/api/webhooks/index.ts](pages/api/webhooks/index.ts).
 - Helpers
   - [utils/api-helpers.ts](utils/api-helpers.ts)
     - `isomorphic-unfetch` helpers for GET and POST requests.
@@ -84,9 +86,9 @@ Next, start the webhook forwarding:
 
 The CLI will print a webhook secret key to the console. Set `STRIPE_WEBHOOK_SECRET` to this value in your `.env` file.
 
-### Deploy it to the cloud with Now
+### Deploy it to the cloud with Zeit Now
 
-Install [now](https://zeit.co/now) ([download](https://zeit.co/download))
+Install [Now](https://zeit.co/now) ([download](https://zeit.co/download))
 
 Add your Stripe [secrets to Now](https://zeit.co/docs/v2/serverless-functions/env-and-secrets):
 
@@ -99,3 +101,8 @@ To start the deploy, run:
     now
 
 After the successful deploy, Now will show you the URL for your site. Copy that URL (`https://your-url.now.sh/api/webhooks`) and create a live webhook endpoint [in your Stripe dashboard](https://stripe.com/docs/webhooks/setup#configure-webhook-settings).
+
+**_Note_** that you're live webhook will have a different secret. To update it in your deployed application you will need to first rm the existing secret and then add the new secret:
+
+    now secrets rm stripe_webhook_secret
+    now secrets add stripe_webhook_secret whsec_***
