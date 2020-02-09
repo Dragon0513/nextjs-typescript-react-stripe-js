@@ -53,8 +53,14 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         .object as Stripe.PaymentIntent;
       console.log(`💰 PaymentIntent status: ${stripeObject.status}`);
     } else if (event.type === 'charge.succeeded') {
-      const charge = event.data.object as Stripe.Charge;
-      console.log(`💵 Charge id: ${charge.id}`);
+      const stripeObject = event.data.object as Stripe.Charge;
+      console.log(`💵 Charge id: ${stripeObject.id}`);
+    } else if (event.type === 'payment_intent.payment_failed') {
+      const stripeObject: Stripe.PaymentIntent = event.data
+        .object as Stripe.PaymentIntent;
+      console.log(
+        `❌ Payment failed: ${stripeObject.last_payment_error?.message}`
+      );
     } else {
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
     }

@@ -22,6 +22,7 @@ const ElementsForm: React.FunctionComponent = () => {
   const PaymentStatus = ({ status }: { status: string }) => {
     switch (status) {
       case 'processing':
+      case 'requires_payment_method':
       case 'requires_confirmation':
         return <h2>Processing...</h2>;
 
@@ -54,44 +55,40 @@ const ElementsForm: React.FunctionComponent = () => {
     e.preventDefault();
     setPayment({ status: 'processing' });
 
+    // Create a PaymentIntent with the specified amount
+    // Send paymentMethod.id to your server.
+    const response = await fetchPostJSON('/api/payment_intents', {
+      amount: input.customDonation
+    });
+    setPayment(response);
+
+    if (response.statusCode === 500) {
+      setPayment({ status: 'error' });
+      setErrorMessage(response.message);
+      return;
+    }
+
     // Get a reference to a mounted CardElement. Elements knows how
     // to find your CardElement because there can only ever be one of
     // each type of element.
     const cardElement = elements!.getElement(CardElement);
 
     // Use your card Element with other Stripe.js APIs
-    const { error, paymentMethod } = await stripe!.createPaymentMethod({
-      type: 'card',
-      card: cardElement!,
-      billing_details: { name: input.cardholderName }
-    });
+    const { error, paymentIntent } = await stripe!.confirmCardPayment(
+      response.client_secret,
+      {
+        payment_method: {
+          card: cardElement!,
+          billing_details: { name: input.cardholderName }
+        }
+      }
+    );
 
     if (error) {
       setPayment({ status: 'error' });
       setErrorMessage(error.message as string); // TODO check if resolved
-    } else if (paymentMethod) {
-      // Send paymentMethod.id to your server.
-      const response = await fetchPostJSON('/api/payment_intents', {
-        amount: input.customDonation,
-        paymentMethodId: paymentMethod.id
-      });
-      setPayment(response);
-      if (response.status === 'requires_action') {
-        const result = await stripe!.handleCardAction(response.client_secret!);
-        if (result.error) {
-          setPayment({ status: 'error' });
-          setErrorMessage(result.error.message as string); // TODO check if resolved
-        } else if (result.paymentIntent) {
-          setPayment(result.paymentIntent);
-          if (result.paymentIntent.status === 'requires_confirmation') {
-            // Confirm the PaymentIntent to finalise the payment.
-            const response = await fetchPostJSON(
-              `/api/payment_intents/${result.paymentIntent.id}/confirm`
-            );
-            setPayment(response);
-          }
-        }
-      }
+    } else if (paymentIntent) {
+      setPayment(paymentIntent);
     }
   };
 

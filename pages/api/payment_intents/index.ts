@@ -14,10 +14,7 @@ const stripe = new Stripe(stripeSecretKey, {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const {
-      amount,
-      paymentMethodId
-    }: { amount: number; paymentMethodId: string } = req.body;
+    const { amount }: { amount: number } = req.body;
     try {
       // Validate the amount that was passed from the client.
       if (!(amount >= MIN_AMOUNT && amount <= MAX_AMOUNT)) {
@@ -26,14 +23,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // Create PaymentIntent from body params.
       const params: Stripe.PaymentIntentCreateParams = {
         payment_method_types: ['card'],
-        payment_method: paymentMethodId,
         amount: formatAmountForStripe(amount, CURRENCY),
-        currency: CURRENCY,
-
-        // A PaymentIntent can be confirmed some time after creation,
-        // but here we want to confirm (collect payment) immediately.
-        confirm: true,
-        confirmation_method: 'manual'
+        currency: CURRENCY
       };
       const payment_intent: Stripe.PaymentIntent = await stripe.paymentIntents.create(
         params

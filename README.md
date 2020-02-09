@@ -24,7 +24,7 @@ This is a full-stack TypeScript example using:
     - Backend: [pages/api/checkout_sessions/](pages/api/checkout_sessions/)
     - Checkout payment result page that uses [SWR](https://github.com/zeit/swr) hooks to fetch the CheckoutSession status from the API route: [pages/result.tsx](pages/result.tsx).
 - Stripe Elements
-  - Custom Amount Donation with Stripe Elements (no redirect; [server-side confirmation](https://stripe.com/docs/payments/accept-a-payment-synchronously#web)):
+  - Custom Amount Donation with Stripe Elements & PaymentIntents (no redirect):
     - Frontend: [pages/donate-with-elements.tsx](pages/donate-with-checkout.tsx)
     - Backend: [pages/api/payment_intents/](pages/api/payment_intents/)
 - Webhook handling
