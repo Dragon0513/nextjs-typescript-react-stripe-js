@@ -55,8 +55,7 @@ const ElementsForm: React.FunctionComponent = () => {
     e.preventDefault();
     setPayment({ status: 'processing' });
 
-    // Create a PaymentIntent with the specified amount
-    // Send paymentMethod.id to your server.
+    // Create a PaymentIntent with the specified amount.
     const response = await fetchPostJSON('/api/payment_intents', {
       amount: input.customDonation
     });
@@ -73,7 +72,7 @@ const ElementsForm: React.FunctionComponent = () => {
     // each type of element.
     const cardElement = elements!.getElement(CardElement);
 
-    // Use your card Element with other Stripe.js APIs
+    // Use the card Element to confirm the Payment.
     const { error, paymentIntent } = await stripe!.confirmCardPayment(
       response.client_secret,
       {
