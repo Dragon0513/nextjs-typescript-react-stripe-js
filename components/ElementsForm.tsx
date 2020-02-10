@@ -86,7 +86,7 @@ const ElementsForm: React.FunctionComponent = () => {
 
     if (error) {
       setPayment({ status: 'error' });
-      setErrorMessage(error.message as string); // TODO check if resolved
+      setErrorMessage(error.message ?? 'An unknown error occured');
     } else if (paymentIntent) {
       setPayment(paymentIntent);
     }
