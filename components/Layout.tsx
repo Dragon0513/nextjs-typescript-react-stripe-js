@@ -1,24 +1,35 @@
-import React from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
+import React from 'react';
+import Head from 'next/head';
+import Link from 'next/link';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 type Props = {
-  title?: string
-}
+  title?: string;
+};
 
-const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY!)
+const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY!);
 
 const Layout: React.FunctionComponent<Props> = ({
   children,
-  title = 'TypeScript Next.js Stripe Example',
+  title = 'TypeScript Next.js Stripe Example'
 }) => (
   <Elements stripe={stripePromise}>
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@thorwebdev" />
+      <meta name="twitter:title" content="TypeScript Next.js Stripe Example" />
+      <meta
+        name="twitter:description"
+        content="Full-stack TypeScript example using Next.js, react-stripe-js, and stripe-node."
+      />
+      <meta
+        name="twitter:image"
+        content="https://nextjs-typescript-react-stripe-js.now.sh/social_card.png"
+      />
     </Head>
     <div className="container">
       <header>
@@ -59,6 +70,6 @@ const Layout: React.FunctionComponent<Props> = ({
       </span>
     </div>
   </Elements>
-)
+);
 
-export default Layout
+export default Layout;
