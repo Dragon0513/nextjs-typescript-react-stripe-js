@@ -1,23 +1,30 @@
-import { NextPage } from 'next';
-import Link from 'next/link';
-import Layout from '../components/Layout';
+import { NextPage } from 'next'
+import Link from 'next/link'
+import Layout from '../components/Layout'
 
 const IndexPage: NextPage = () => {
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <h1>Type-safe Payments with Next.js, TypeScript, and Stripe 🔒💸</h1>
-      <p>
-        <Link href="/donate-with-checkout">
-          <a>Donate with Checkout</a>
-        </Link>
-      </p>
-      <p>
-        <Link href="/donate-with-elements">
-          <a>Donate with Elements</a>
-        </Link>
-      </p>
+      <ul className="card-list">
+        <li>
+          <Link href="/donate-with-checkout">
+            <a className="card checkout-style-background">
+              <h2 className="bottom">Donate with Checkout</h2>
+              <img src="/checkout-one-time-payments.svg" />
+            </a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/donate-with-elements">
+            <a className="card elements-style-background">
+              <h2 className="bottom">Donate with Elements</h2>
+              <img src="/elements-card-payment.svg" />
+            </a>
+          </Link>
+        </li>
+      </ul>
     </Layout>
-  );
-};
+  )
+}
 
-export default IndexPage;
+export default IndexPage
